@@ -26,4 +26,5 @@ namespace ExchangeRates.View
             DataContext = new RatesViewModel();
         }
     }
+
 }
