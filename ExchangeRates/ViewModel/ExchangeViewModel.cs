@@ -1,18 +1,20 @@
 ﻿using ExchangeRates.Model;
 using System;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data;
-using System.Linq;
+using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExchangeRates.ViewModel
 {
     public class ExchangeViewModel : INotifyPropertyChanged
     {
+        readonly string path = @"C:\Users\Vasiliy\source\repos\ExchangeRates\ExchangeRates\DataModels\SaveData.json";
+        string _jsonPersons = String.Empty;
+        public string Error { get; set; }
+        public string Message { get; set; }
+
         /// <summary>
         /// выбранная в списке должность
         /// </summary>
@@ -60,6 +62,22 @@ namespace ExchangeRates.ViewModel
                 RateValue = 6f
 
             });
+        }
+
+        private void SaveChanges(ObservableCollection<Exchange> listExchanges)
+        {
+            var jsonExchange = JsonConvert.SerializeObject(listExchanges);
+            try
+            {
+                using (StreamWriter writer = File.CreateText(path))
+                {
+                    writer.Write(jsonExchange);
+                }
+            }
+            catch (IOException e)
+            {
+                Error = "Ошибка записи json файла /n" + e.Message;
+            }
         }
 
 

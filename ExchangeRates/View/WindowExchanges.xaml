@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExchangeRates.View"
         mc:Ignorable="d"
-        Title="WindowExchanges" Height="450" Width="800">
-    <StackPanel>
+        Title="WindowExchanges" Height="450" Width="500">
+    <StackPanel Background="#FFD8D8D8">
         <StackPanel Orientation="Horizontal" Background="#FFE4E0E0">
             <Button Style="{StaticResource ButtonMenu}" Content="Добавить"  Command="{Binding AddPerson}"/>
             <Button Style="{StaticResource ButtonMenu}"  Content="Редактировать"  Command="{Binding EditPerson}"/>
             <Button Style="{StaticResource ButtonMenu}" Content="Удалить"  Command="{Binding DeletePerson}"/>
+            <Button Style="{StaticResource ButtonMenu}" Content="Выгрузка в файл"  Command="{Binding DeletePerson}"/>
         </StackPanel>
 
         <ListView ItemsSource="{Binding ListExchange}"
@@ -19,10 +20,9 @@
                 <GridView>
                     <GridView.Columns>
                         <GridViewColumn Header="Код" Width="50" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding LastName}" />
-                        <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding FirstName}" />
-                        <GridViewColumn Header="Должность" DisplayMemberBinding="{Binding RoleName}" />
-                        <GridViewColumn Header="Дата рождения" DisplayMemberBinding="{Binding Birthday, StringFormat={}{0:dd\.}{0:MM\.}{0:yyyy}}" />
+                        <GridViewColumn Header="Имя валюты" Width="100" DisplayMemberBinding="{Binding RateName}" />
+                        <GridViewColumn Header="Значение" Width="100" DisplayMemberBinding="{Binding RateValue}" />
+                        <GridViewColumn Header="Дата фиксирования" Width="150" DisplayMemberBinding="{Binding DateTime, StringFormat={}{0:dd\.}{0:MM\.}{0:yyyy}}" />
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

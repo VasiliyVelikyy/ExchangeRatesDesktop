@@ -23,6 +23,8 @@ namespace ExchangeRates
     {
         public static int IdRate { get; set; }
 
+        public static int IdExchange { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,8 +32,16 @@ namespace ExchangeRates
 
         private void Rate_OnClick(object sender, RoutedEventArgs e)
         {
-            WindowRates wRole = new WindowRates();
-            wRole.Show();
+            WindowRates wRate = new WindowRates();
+            wRate.Show();
         }
+
+        private void Exchange_OnClick(object sender, RoutedEventArgs e)
+        {
+            WindowExchanges wExchanges = new WindowExchanges();
+            wExchanges.Show();
+        }
+
+
     }
 }
