@@ -13,7 +13,7 @@ namespace ExchangeRates.Model
     /// <summary>
     /// класс Валюты
     /// </summary>
-    public class Rates : INotifyPropertyChanged
+    public class Rate : INotifyPropertyChanged
     {
         /// <summary>
         /// код валюты
@@ -23,43 +23,52 @@ namespace ExchangeRates.Model
         /// <summary>
         /// наименование валюты
         /// </summary>
-        private string nameRates;
-        public string NameRates
+        private string nameRate;
+        public string NameRate
         {
-            get { return nameRates; }
+            get { return nameRate; }
             set
             {
-                nameRates = value;
+                nameRate = value;
                 OnPropertyChanged("NameRates");
+            }
+        }
+
+        private string code;
+        public string Code
+        {
+            get { return code; }
+            set
+            {
+                code = value;
+                OnPropertyChanged("Code");
 
             }
         }
 
-        public Rates() { }
-        public Rates(int id, string nameRates)
+        public Rate() { }
+        public Rate(int id, string nameRates, string code)
         {
             this.Id = id;
-            this.NameRates = nameRates;
+            this.NameRate = nameRates;
+            this.Code = code;
         }
 
         /// <summary>
         /// Метод поверхностного копирования 
         /// </summary>
         /// <returns></returns>
-        public Rates ShallowCopy()
+        public Rate ShallowCopy()
         {
-            return (Rates)this.MemberwiseClone();
+            return (Rate)this.MemberwiseClone();
         }
         public event PropertyChangedEventHandler PropertyChanged;
-         [NotifyPropertyChangedInvocator]
+        // [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName]
         string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
     }
 
-    
 }

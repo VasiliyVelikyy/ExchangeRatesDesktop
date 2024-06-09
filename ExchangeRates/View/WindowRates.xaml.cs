@@ -1,4 +1,4 @@
-﻿using ExchangeRates.View;
+﻿using ExchangeRates.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,27 +11,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ExchangeRates
+namespace ExchangeRates.View
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для WindowRates.xaml
     /// </summary>
-    public partial class MainWindow : Window 
+    public partial class WindowRates : Window
     {
-        public static int IdRate { get; set; }
-
-        public MainWindow()
+        public WindowRates()
         {
             InitializeComponent();
-        }
-
-        private void Rate_OnClick(object sender, RoutedEventArgs e)
-        {
-            WindowRates wRole = new WindowRates();
-            wRole.Show();
+            DataContext = new RatesViewModel();
         }
     }
 }

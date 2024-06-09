@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace ExchangeRates.ViewModel
             }
             set
             {
-                selectedRole = value;
+                selectedRate = value;
                 OnPropertyChanged("SelectedRate");
               //  EditRole.CanExecute(true);
             }
@@ -59,5 +60,32 @@ namespace ExchangeRates.ViewModel
                 Code = "CNY"
             });
         }
+
+        /// <summary>
+        /// Нахождение максимального Id в коллекции
+        /// </summary>
+        /// <returns></returns>
+        public int MaxId()
+        {
+            int max = 0;
+            foreach (var r in this.ListRates)
+            {
+                if (max < r.Id)
+                {
+                    max = r.Id;
+                };
+            }
+            return max;
+        }
+
+
+       
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName]
+string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
+
