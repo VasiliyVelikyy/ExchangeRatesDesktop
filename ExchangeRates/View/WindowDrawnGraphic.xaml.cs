@@ -1,5 +1,6 @@
 ﻿using ExchangeRates.Model;
 using ExchangeRates.ViewModel;
+using LiveCharts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using LiveCharts.Wpf;
+using System.Collections.ObjectModel;
+using LiveCharts.Defaults;
+using LiveCharts.Definitions.Charts;
+using ExchangeRates.Helper;
+using System.Runtime.Serialization;
+using static System.Resources.ResXFileRef;
+using LiveCharts.Configurations;
 
 namespace ExchangeRates.View
 {
@@ -24,17 +33,69 @@ namespace ExchangeRates.View
         public WindowDrawnGraphic()
         {
             InitializeComponent();
-            // DataContext = new DrawnViewModel();
 
-            var Points = new System.Windows.Point[3]
-              {
-                         new System.Windows.Point { X = 0, Y = 10 },
-                        new System.Windows.Point { X = 10, Y = 30 },
-                        new System.Windows.Point { X = 20, Y = 20 },
-              };
-            IList<Segment> Segments = new List<Segment>(Points.Zip(Points.Skip(1), (a, b) => new Segment { From = a, To = b }));
+            var mapper = Mappers.Xy<GraphPoint>()
+             .X(model => model.Date.Ticks)
+            .Y(model => model.Value);
 
-            DataContext = Segments;
+            var list = new ExchangeViewModel().ListExchange;
+
+            list = new ObservableCollection<Exchange>(list.OrderBy(i => i.DateTime));
+
+
+            var series1 = new LineSeries
+            {
+                Values = new ChartValues<GraphPoint>
+                    {
+                        new GraphPoint(DateTime.Now.AddDays(1),10),       //First Point of First Line
+                        
+                    },
+                PointGeometrySize = 25,
+                Title="USD"
+            };
+
+            var series2 = new LineSeries
+            {
+                    Values = new ChartValues<GraphPoint>
+                    {
+                        new GraphPoint(DateTime.Now.AddDays(2),4),      //First Point of 2nd Line
+                        
+                    },
+                    PointGeometrySize = 15,
+                    Title = "EUR"
+            };
+
+            var series3 = new LineSeries
+            {
+                Values = new ChartValues<GraphPoint>
+                    {
+                         new GraphPoint(DateTime.Now.AddDays(3),4),     //First Point of 3rd Line
+                        
+                    },
+                PointGeometrySize = 15,
+                Title= "CNY"
+            };
+
+
+            SeriesCollection = new SeriesCollection { series1, series2, series3 };
+     
+        
+           
+            ///Labels = new[] { "Giga", "Perish","SADF","WQFS" };
+
+            Formatter = value => new DateTime((long)value).ToString("MM/dd/yy");
+
+            DataContext = this;
+
         }
+
+        public SeriesCollection SeriesCollection { get; set; }
+        public string[] Labels { get; set; }
+
+        public Func<double, string> Values { get; set; }
+        public Func<double, string> Formatter { get;  set; }
+
+
+      
     }
 }
