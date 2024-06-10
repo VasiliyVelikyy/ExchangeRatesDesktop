@@ -66,11 +66,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\FindRate.cs" />
     <Compile Include="Helper\RelayCommand.cs" />
     <Compile Include="Model\Exchange.cs" />
     <Compile Include="Model\GraphPoint.cs" />
-    <Compile Include="Model\Segment.cs" />
-    <Compile Include="ViewModel\DrawnViewModel.cs" />
     <Compile Include="ViewModel\ExchangeViewModel.cs" />
     <Compile Include="ViewModel\RatesViewModel.cs" />
     <Compile Include="View\WindowDrawnGraphic.xaml.cs">

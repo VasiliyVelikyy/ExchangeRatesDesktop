@@ -6,17 +6,30 @@
         xmlns:local="clr-namespace:ExchangeRates.View"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="WindowDrawnGraphic" Height="450" Width="800">
+        Title="WindowDrawnGraphic" Height="1000" Width="1000">
 
 
     <lvc:CartesianChart Height="800" 
                       LegendLocation="Right"  >
         <lvc:CartesianChart.Series>
-            <lvc:LineSeries Title="Bills" 
+            <lvc:LineSeries Title="USD" 
                       Configuration="{Binding ObservableDateModelMapper}" 
-                      Values="{Binding SeriesValues}"
+                      Values="{Binding SeriesValuesUSD}"
                       PointForeground="Green" 
                       Stroke="Green" />
+            
+            <lvc:LineSeries Title="EUR" 
+                    Configuration="{Binding ObservableDateModelMapper}" 
+                    Values="{Binding SeriesValuesEUR}"
+                    PointForeground="Red" 
+                    Stroke="Red" />
+
+            <lvc:LineSeries Title="CNY" 
+                     Configuration="{Binding ObservableDateModelMapper}" 
+                    Values="{Binding SeriesValuesCNY}"
+                    PointForeground="yellow" 
+                    Stroke="yellow" />
+
         </lvc:CartesianChart.Series>
 
         <lvc:CartesianChart.AxisX>

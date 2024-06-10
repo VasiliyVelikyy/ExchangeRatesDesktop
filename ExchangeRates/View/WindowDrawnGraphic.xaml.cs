@@ -1,27 +1,13 @@
 ﻿using ExchangeRates.Model;
-using ExchangeRates.ViewModel;
 using LiveCharts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using LiveCharts.Wpf;
-using System.Collections.ObjectModel;
-using LiveCharts.Defaults;
-using LiveCharts.Definitions.Charts;
-using ExchangeRates.Helper;
-using System.Runtime.Serialization;
-using static System.Resources.ResXFileRef;
+
 using LiveCharts.Configurations;
+using ExchangeRates.ViewModel;
+using System.Linq;
+using System.Reflection;
+using ExchangeRates.Helper;
 
 namespace ExchangeRates.View
 {
@@ -39,31 +25,63 @@ namespace ExchangeRates.View
               .X(item => item.Date.Ticks)
               .Y(item => item.Value);
 
-            Plot();
+            var listExchange = new ExchangeViewModel().ListExchange.ToList();
+
+           
+            FindRate finderUSD = new FindRate("USD");
+            FindRate finderEUR = new FindRate("EUR");
+            FindRate finderCNY = new FindRate("CNY");
+            var findUSD = listExchange.FindAll(new Predicate<Exchange>(finderUSD.RatePredicate));
+            var findEUR = listExchange.FindAll(new Predicate<Exchange>(finderEUR.RatePredicate));
+            var findCNY = listExchange.FindAll(new Predicate<Exchange>(finderCNY.RatePredicate));
+
+            PlotUSD(findUSD);
+            PlotEUR(findEUR);
+            PlotCNY(findCNY);
 
             DataContext = this;
         }
 
 
-        public void Plot()
+        public void PlotUSD(System.Collections.Generic.List<Exchange> findUSD)
         {
-            this.SeriesValues = new ChartValues<GraphPoint>
-    {
-      new GraphPoint(DateTime.Now, 2),
-      new GraphPoint(DateTime.Now.AddDays(1), 5),
-      new GraphPoint(DateTime.Now.AddDays(2), 6),
-      new GraphPoint(DateTime.Now.AddDays(3), 8),
-      new GraphPoint(DateTime.Now.AddDays(4), 5),
-      new GraphPoint(DateTime.Now.AddDays(5), 5),
-      new GraphPoint(DateTime.Now.AddDays(6), 5)
-    };
+            this.SeriesValuesUSD = new ChartValues<GraphPoint>();
+
+            foreach (var exchange in findUSD) {
+                var point = new GraphPoint(exchange.DateTime, exchange.RateValue);
+                this.SeriesValuesUSD.Add(point);
+            }
         }
-    
-       
+
+        public void PlotEUR(System.Collections.Generic.List<Exchange> findEUR)
+        {
+            this.SeriesValuesEUR = new ChartValues<GraphPoint>();
+
+            foreach (var exchange in findEUR)
+            {
+                var point = new GraphPoint(exchange.DateTime, exchange.RateValue);
+                this.SeriesValuesEUR.Add(point);
+            }
+        }
+
+        public void PlotCNY(System.Collections.Generic.List<Exchange> findCNY)
+        {
+            this.SeriesValuesCNY = new ChartValues<GraphPoint>();
+
+            foreach (var exchange in findCNY)
+            {
+                var point = new GraphPoint(exchange.DateTime, exchange.RateValue);
+                this.SeriesValuesCNY.Add(point);
+            }
+        }
+
+
 
         public CartesianMapper<GraphPoint> ObservableDateModelMapper { get; }
-        public ChartValues<GraphPoint> SeriesValues { get; private set; }
-        public Func<double, string> LabelFormatter => value => new DateTime((long)value).ToString();
+        public ChartValues<GraphPoint> SeriesValuesUSD { get; private set; }
+        public ChartValues<GraphPoint> SeriesValuesEUR { get; private set; }
+        public ChartValues<GraphPoint> SeriesValuesCNY { get; private set; }
+        public Func<double, string> LabelFormatter => value => new DateTime((long)value).ToString("MM/dd/yy");
 
     }
 }

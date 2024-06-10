@@ -70,6 +70,58 @@ namespace ExchangeRates.ViewModel
                 RateValue = 6f
 
             });
+            this.ListExchange.Add(new Exchange
+            {
+                Id = 4,
+                DateTime = new DateTime(2024, 04, 15),
+                RateName = "USD",
+                RateValue = 100.1f
+
+            });
+
+            this.ListExchange.Add(new Exchange
+            {
+                Id = 5,
+                DateTime = new DateTime(2022, 11, 15),
+                RateName = "USD",
+                RateValue = 50.1f
+
+            });
+
+            this.ListExchange.Add(new Exchange
+            {
+                Id = 6,
+                DateTime = new DateTime(2022, 04, 15),
+                RateName = "CNY",
+                RateValue = 12f
+
+            });
+
+            this.ListExchange.Add(new Exchange
+            {
+                Id = 7,
+                DateTime = new DateTime(2023, 04, 15),
+                RateName = "CNY",
+                RateValue = 15f
+
+            });
+
+            this.ListExchange.Add(new Exchange
+            {
+                Id = 8,
+                DateTime = new DateTime(2000, 05, 10),
+                RateName = "EUR",
+                RateValue = 24.2f
+            });
+
+            this.ListExchange.Add(new Exchange
+            {
+                Id = 9,
+                DateTime = new DateTime(2021, 03, 10),
+                RateName = "EUR",
+                RateValue = 80.2f
+            });
+
         }
 
         private void SaveChanges(ObservableCollection<Exchange> listExchanges)
@@ -248,15 +300,9 @@ namespace ExchangeRates.ViewModel
                         Title = "График изменения курсов"
                     };
 
-
-                 
-
-                   // wnGraph.DataContext = Segments;
-
-
                     if (wnGraph.ShowDialog() == true)
                     {
-                        var test = new System.Windows.Point[3];
+                        
                     }
 
                 },
