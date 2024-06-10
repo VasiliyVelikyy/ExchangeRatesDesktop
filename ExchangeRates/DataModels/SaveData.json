@@ -1,1 +1,20 @@
-[{"Id":1,"DateTime":"1980-02-28T00:00:00","RateName":"USD","RateValue":12.2},{"Id":2,"DateTime":"1983-05-10T00:00:00","RateName":"EUR","RateValue":14.2},{"Id":3,"DateTime":"1982-04-15T00:00:00","RateName":"CNY","RateValue":6.0}]
+[
+  {
+    "Id": 1,
+    "DateTime": "1980-02-28T00:00:00",
+    "RateName": "USD",
+    "RateValue": 12.2
+  },
+  {
+    "Id": 2,
+    "DateTime": "1983-05-10T00:00:00",
+    "RateName": "EUR",
+    "RateValue": 14.2
+  },
+  {
+    "Id": 3,
+    "DateTime": "1982-04-15T00:00:00",
+    "RateName": "CNY",
+    "RateValue": 6.0
+  }
+]

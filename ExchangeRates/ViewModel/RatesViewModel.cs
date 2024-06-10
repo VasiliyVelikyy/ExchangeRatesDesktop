@@ -51,7 +51,7 @@ namespace ExchangeRates.ViewModel
             {
                 Id = 2,
                 NameRate = "Евро",
-                Code = "Eur"
+                Code = "EUR"
             });
             this.ListRates.Add(new Rate
             {

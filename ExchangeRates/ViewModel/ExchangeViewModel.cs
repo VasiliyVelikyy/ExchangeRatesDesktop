@@ -11,6 +11,8 @@ using System.Data;
 using ExchangeRates.View;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Drawing;
+using System.Linq;
 
 namespace ExchangeRates.ViewModel
 {
@@ -106,7 +108,7 @@ namespace ExchangeRates.ViewModel
                     {
                         Title = "Новые данные по курсу"
                     };
-                    // формирование кода нового собрудника
+                    // формирование кода нового курса
                     int maxIdExchgange = MaxId() + 1;
                     Exchange exchange = new Exchange
                     {
@@ -154,6 +156,7 @@ namespace ExchangeRates.ViewModel
 
                     if (wnExchange.ShowDialog() == true)
                     {
+                        ListExchange.Remove(SelectedExchange);
                         // сохранение данных в оперативной памяти
                         // перенос данных из временного класса в класс отображения 
                         // данных 
@@ -161,7 +164,8 @@ namespace ExchangeRates.ViewModel
                         exchange.RateName= r.Code;
                         exchange.RateValue = tempexchange.RateValue;
                         exchange.DateTime = tempexchange.DateTime;
-                                       
+                        ListExchange.Add(exchange);
+
                     }
                 }, (obj) => SelectedExchange != null && ListExchange.Count > 0));
             }
@@ -223,6 +227,44 @@ namespace ExchangeRates.ViewModel
             }
         }
         #endregion
+
+        #region DrawnGraphic
+        /// <summary>
+        /// добавление сотрудника
+        /// </summary>
+        private RelayCommand drawnGraphic;
+        /// <summary>
+        /// добавление сотрудника
+        /// </summary>
+        public RelayCommand DrawnGraphic
+        {
+            get
+            {
+                return drawnGraphic ??
+                (drawnGraphic = new RelayCommand(obj =>
+                {
+                    WindowDrawnGraphic wnGraph = new WindowDrawnGraphic
+                    {
+                        Title = "График изменения курсов"
+                    };
+
+
+                 
+
+                   // wnGraph.DataContext = Segments;
+
+
+                    if (wnGraph.ShowDialog() == true)
+                    {
+                        var test = new System.Windows.Point[3];
+                    }
+
+                },
+                    (obj) => true));
+            }
+        }
+        #endregion
+
 
 
 
