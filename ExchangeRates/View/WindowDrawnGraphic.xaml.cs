@@ -34,68 +34,36 @@ namespace ExchangeRates.View
         {
             InitializeComponent();
 
-            var mapper = Mappers.Xy<GraphPoint>()
-             .X(model => model.Date.Ticks)
-            .Y(model => model.Value);
+            this.ObservableDateModelMapper = new CartesianMapper<GraphPoint>();
+            this.ObservableDateModelMapper
+              .X(item => item.Date.Ticks)
+              .Y(item => item.Value);
 
-            var list = new ExchangeViewModel().ListExchange;
-
-            list = new ObservableCollection<Exchange>(list.OrderBy(i => i.DateTime));
-
-
-            var series1 = new LineSeries
-            {
-                Values = new ChartValues<GraphPoint>
-                    {
-                        new GraphPoint(DateTime.Now.AddDays(1),10),       //First Point of First Line
-                        
-                    },
-                PointGeometrySize = 25,
-                Title="USD"
-            };
-
-            var series2 = new LineSeries
-            {
-                    Values = new ChartValues<GraphPoint>
-                    {
-                        new GraphPoint(DateTime.Now.AddDays(2),4),      //First Point of 2nd Line
-                        
-                    },
-                    PointGeometrySize = 15,
-                    Title = "EUR"
-            };
-
-            var series3 = new LineSeries
-            {
-                Values = new ChartValues<GraphPoint>
-                    {
-                         new GraphPoint(DateTime.Now.AddDays(3),4),     //First Point of 3rd Line
-                        
-                    },
-                PointGeometrySize = 15,
-                Title= "CNY"
-            };
-
-
-            SeriesCollection = new SeriesCollection { series1, series2, series3 };
-     
-        
-           
-            ///Labels = new[] { "Giga", "Perish","SADF","WQFS" };
-
-            Formatter = value => new DateTime((long)value).ToString("MM/dd/yy");
+            Plot();
 
             DataContext = this;
-
         }
 
-        public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
 
-        public Func<double, string> Values { get; set; }
-        public Func<double, string> Formatter { get;  set; }
+        public void Plot()
+        {
+            this.SeriesValues = new ChartValues<GraphPoint>
+    {
+      new GraphPoint(DateTime.Now, 2),
+      new GraphPoint(DateTime.Now.AddDays(1), 5),
+      new GraphPoint(DateTime.Now.AddDays(2), 6),
+      new GraphPoint(DateTime.Now.AddDays(3), 8),
+      new GraphPoint(DateTime.Now.AddDays(4), 5),
+      new GraphPoint(DateTime.Now.AddDays(5), 5),
+      new GraphPoint(DateTime.Now.AddDays(6), 5)
+    };
+        }
+    
+       
 
+        public CartesianMapper<GraphPoint> ObservableDateModelMapper { get; }
+        public ChartValues<GraphPoint> SeriesValues { get; private set; }
+        public Func<double, string> LabelFormatter => value => new DateTime((long)value).ToString();
 
-      
     }
 }

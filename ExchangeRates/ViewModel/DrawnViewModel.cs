@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ExchangeRates.ViewModel
 {
-    public class DrawnViewModel
+    public class DrawnViewModel 
     {
         public IList<Segment> Segments { get; set; }
 
