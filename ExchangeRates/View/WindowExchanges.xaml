@@ -8,10 +8,10 @@
         Title="WindowExchanges" Height="450" Width="500">
     <StackPanel Background="#FFD8D8D8">
         <StackPanel Orientation="Horizontal" Background="#FFE4E0E0">
-            <Button Style="{StaticResource ButtonMenu}" Content="Добавить"  Command="{Binding AddPerson}"/>
-            <Button Style="{StaticResource ButtonMenu}"  Content="Редактировать"  Command="{Binding EditPerson}"/>
-            <Button Style="{StaticResource ButtonMenu}" Content="Удалить"  Command="{Binding DeletePerson}"/>
-            <Button Style="{StaticResource ButtonMenu}" Content="Выгрузка в файл"  Command="{Binding DeletePerson}"/>
+            <Button Style="{StaticResource ButtonMenu}" Content="Добавить"  Command="{Binding AddExchange}"/>
+            <Button Style="{StaticResource ButtonMenu}"  Content="Редактировать"  Command="{Binding EditExchange}"/>
+            <Button Style="{StaticResource ButtonMenu}" Content="Удалить"  Command="{Binding DeleteExchange}"/>
+            <Button Style="{StaticResource ButtonMenu}" Content="Выгрузка в файл"  Command="{Binding UploadData}"/>
         </StackPanel>
 
         <ListView ItemsSource="{Binding ListExchange}"

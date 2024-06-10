@@ -9,7 +9,7 @@
     <Grid>
         <Menu>
             <MenuItem x:Name="Rate" Header="Валюты" Click="Rate_OnClick"></MenuItem>
-            <MenuItem x:Name="Exchange" Header="Список изменение" Click="Exchange_OnClick"></MenuItem>
+            <MenuItem x:Name="Exchange" Header="Курс по датам" Click="Exchange_OnClick"></MenuItem>
         </Menu>
 
     </Grid>

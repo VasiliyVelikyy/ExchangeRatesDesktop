@@ -5,6 +5,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using ExchangeRates.Helper;
+using System.Windows;
+using System.Data;
+using ExchangeRates.View;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace ExchangeRates.ViewModel
 {
@@ -78,6 +84,163 @@ namespace ExchangeRates.ViewModel
             {
                 Error = "Ошибка записи json файла /n" + e.Message;
             }
+        }
+
+
+        #region AddExchange
+        /// <summary>
+        /// добавление сотрудника
+        /// </summary>
+        private RelayCommand addExchange;
+        /// <summary>
+        /// добавление сотрудника
+        /// </summary>
+        public RelayCommand AddExchange
+        {
+            get
+            {
+                return addExchange ??
+                (addExchange = new RelayCommand(obj =>
+                {
+                    WindowNewExchange wnExchange = new WindowNewExchange
+                    {
+                        Title = "Новые данные по курсу"
+                    };
+                    // формирование кода нового собрудника
+                    int maxIdExchgange = MaxId() + 1;
+                    Exchange exchange = new Exchange
+                    {
+                        Id = maxIdExchgange,
+                        DateTime = DateTime.Now
+                    };
+                    wnExchange.DataContext = exchange;
+
+                    wnExchange.CbRates.ItemsSource = new RatesViewModel().ListRates;
+                    if (wnExchange.ShowDialog() == true)
+                    {
+                        // добавление нового курса в коллекцию  ListExchange<Exchange> 
+                        Rate r = (Rate)wnExchange.CbRates.SelectedValue;
+                        exchange.RateName = r.Code;
+                        ListExchange.Add(exchange);
+
+                    }
+                    SelectedExchange = exchange;
+                },
+ (obj) => true));
+            }
+        }
+        #endregion
+
+        #region EditExchange
+        /// команда редактирования данных по сотруднику
+        private RelayCommand editExchange;
+        public RelayCommand EditExchange
+        {
+            get
+            {
+                return editExchange ??
+                (editExchange = new RelayCommand(obj =>
+                {
+                    WindowNewExchange wnExchange = new WindowNewExchange()
+                    {
+                        Title = "Редактирование данных по курсу",
+                    };
+                    Exchange exchange = SelectedExchange;
+                    Exchange tempexchange = new Exchange();
+                    tempexchange = exchange.ShallowCopy();
+                    wnExchange.DataContext = tempexchange;
+
+                    wnExchange.CbRates.ItemsSource = new RatesViewModel().ListRates;
+
+                    if (wnExchange.ShowDialog() == true)
+                    {
+                        // сохранение данных в оперативной памяти
+                        // перенос данных из временного класса в класс отображения 
+                        // данных 
+                        Rate r = (Rate)wnExchange.CbRates.SelectedValue;
+                        exchange.RateName= r.Code;
+                        exchange.RateValue = tempexchange.RateValue;
+                        exchange.DateTime = tempexchange.DateTime;
+                                       
+                    }
+                }, (obj) => SelectedExchange != null && ListExchange.Count > 0));
+            }
+        }
+
+        #endregion
+
+        #region DeleteExchange
+        /// команда удаления данных по сотруднику
+        private RelayCommand deleteExchange;
+        public RelayCommand DeleteExchange
+        {
+            get
+            {
+                return deleteExchange ??
+                (deleteExchange = new RelayCommand(obj =>
+                {
+                    Exchange selecEx = SelectedExchange;
+                    MessageBoxResult result = MessageBox.Show("Удалить данные по выбранному курсу?: \n",
+ "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+
+                    if (result == MessageBoxResult.OK)
+                    {
+                        // удаление данных в списке отображения данных
+                        ListExchange.Remove(selecEx);                    
+                    }
+                }, (obj) => SelectedExchange != null && ListExchange.Count > 0));
+            }
+        }
+        #endregion
+
+        #region UploadData
+        /// команда удаления данных по сотруднику
+        private RelayCommand uploadData;
+        public RelayCommand UploadData
+        {
+            get
+            {
+                return uploadData ??
+                (uploadData = new RelayCommand(obj =>
+                {
+
+                    MessageBoxResult result = MessageBox.Show("Выгрузить данные в файл? Возможно перезатирание файла \n",
+ "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+
+                    if (result == MessageBoxResult.OK)
+                    {
+                        try
+                        {
+                            // сохраненее данных в файле json
+                            SaveChanges(ListExchange);
+                        }
+                        catch (Exception e)
+                        {
+                            Error = "Ошибка выгрузки данных\n" + e.Message;
+                        }
+                    }
+                }));
+            }
+        }
+        #endregion
+
+
+
+        /// <summary>
+        /// Нахождение максимального Id в коллекции данных
+        /// </summary>
+        /// <returns></returns>
+        public int MaxId()
+        {
+            int max = 0;
+            foreach (var r in this.ListExchange)
+            {
+                if (max < r.Id)
+                {
+                    max = r.Id;
+                };
+            }
+            return max;
         }
 
 

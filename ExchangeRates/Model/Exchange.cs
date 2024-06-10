@@ -62,6 +62,11 @@ namespace ExchangeRates.Model
             this.RateValue = rateValue;
         }
 
+        public Exchange ShallowCopy()
+        {
+            return (Exchange)this.MemberwiseClone();
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         // [NotifyPropertyChangedInvocator]
