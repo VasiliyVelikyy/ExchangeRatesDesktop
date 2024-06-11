@@ -18,8 +18,8 @@ namespace ExchangeRates.ViewModel
 {
     public class ExchangeViewModel : INotifyPropertyChanged
     {
-        readonly string path = @"C:\Users\Vasiliy\source\repos\ExchangeRates\ExchangeRates\DataModels\SaveData.json";
-        string _jsonPersons = String.Empty;
+        readonly string path = @"C:\Users\Vasiliy\source\repos\ExchangeRates\ExchangeRates\DataModels\SaveDataExchangeRates.json";
+        string _jsonExchange = String.Empty;
         public string Error { get; set; }
         public string Message { get; set; }
 
@@ -48,79 +48,87 @@ namespace ExchangeRates.ViewModel
        ObservableCollection<Exchange>();
         public ExchangeViewModel()
         {
-            this.ListExchange.Add(new Exchange
+
+            if (!ListExchange.Any())
             {
-                Id = 1,
-                DateTime = new DateTime(1980, 02, 28),
-                RateName = "USD",
-                RateValue = 12.2f
-            });
-            this.ListExchange.Add(new Exchange
+                ListExchange = LoadExchange();
+            }
+            else
             {
-                Id = 2,
-                DateTime = new DateTime(1983, 05, 10),
-                RateName = "EUR",
-                RateValue = 14.2f
-            });
-            this.ListExchange.Add(new Exchange
-            {
-                Id = 3,
-                DateTime = new DateTime(1982, 04, 15),
-                RateName = "CNY",
-                RateValue = 6f
+                this.ListExchange.Add(new Exchange
+                {
+                    Id = 1,
+                    DateTime = new DateTime(1980, 02, 28),
+                    RateName = "USD",
+                    RateValue = 12.2f
+                });
+                this.ListExchange.Add(new Exchange
+                {
+                    Id = 2,
+                    DateTime = new DateTime(1983, 05, 10),
+                    RateName = "EUR",
+                    RateValue = 14.2f
+                });
+                this.ListExchange.Add(new Exchange
+                {
+                    Id = 3,
+                    DateTime = new DateTime(1982, 04, 15),
+                    RateName = "CNY",
+                    RateValue = 6f
 
-            });
-            this.ListExchange.Add(new Exchange
-            {
-                Id = 4,
-                DateTime = new DateTime(2024, 04, 15),
-                RateName = "USD",
-                RateValue = 100.1f
+                });
+                this.ListExchange.Add(new Exchange
+                {
+                    Id = 4,
+                    DateTime = new DateTime(2024, 04, 15),
+                    RateName = "USD",
+                    RateValue = 100.1f
 
-            });
+                });
 
-            this.ListExchange.Add(new Exchange
-            {
-                Id = 5,
-                DateTime = new DateTime(2022, 11, 15),
-                RateName = "USD",
-                RateValue = 50.1f
+                this.ListExchange.Add(new Exchange
+                {
+                    Id = 5,
+                    DateTime = new DateTime(2022, 11, 15),
+                    RateName = "USD",
+                    RateValue = 50.1f
 
-            });
+                });
 
-            this.ListExchange.Add(new Exchange
-            {
-                Id = 6,
-                DateTime = new DateTime(2022, 04, 15),
-                RateName = "CNY",
-                RateValue = 12f
+                this.ListExchange.Add(new Exchange
+                {
+                    Id = 6,
+                    DateTime = new DateTime(2022, 04, 15),
+                    RateName = "CNY",
+                    RateValue = 12f
 
-            });
+                });
 
-            this.ListExchange.Add(new Exchange
-            {
-                Id = 7,
-                DateTime = new DateTime(2023, 04, 15),
-                RateName = "CNY",
-                RateValue = 15f
+                this.ListExchange.Add(new Exchange
+                {
+                    Id = 7,
+                    DateTime = new DateTime(2023, 04, 15),
+                    RateName = "CNY",
+                    RateValue = 15f
 
-            });
+                });
 
-            this.ListExchange.Add(new Exchange
-            {
-                Id = 8,
-                DateTime = new DateTime(2000, 05, 10),
-                RateName = "EUR",
-                RateValue = 24.2f
-            });
+                this.ListExchange.Add(new Exchange
+                {
+                    Id = 8,
+                    DateTime = new DateTime(2000, 05, 10),
+                    RateName = "EUR",
+                    RateValue = 24.2f
+                });
 
-            this.ListExchange.Add(new Exchange
-            {
-                Id = 9,
-                DateTime = new DateTime(2021, 03, 10),
-                RateName = "EUR",
-                RateValue = 80.2f
-            });
+                this.ListExchange.Add(new Exchange
+                {
+                    Id = 9,
+                    DateTime = new DateTime(2021, 03, 10),
+                    RateName = "EUR",
+                    RateValue = 80.2f
+                });
+            }
 
         }
 
@@ -140,11 +148,28 @@ namespace ExchangeRates.ViewModel
             }
         }
 
+        public ObservableCollection<Exchange> LoadExchange()
+        {
+            _jsonExchange = File.ReadAllText(path);
+            if (_jsonExchange != null)
+            {
+                ListExchange = JsonConvert.DeserializeObject<ObservableCollection<Exchange>>(_jsonExchange);
+                return ListExchange;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+      
+
+
 
         #region AddExchange
-        /// <summary>
-        /// добавление сотрудника
-        /// </summary>
+                /// <summary>
+                /// добавление сотрудника
+                /// </summary>
         private RelayCommand addExchange;
         /// <summary>
         /// добавление сотрудника
@@ -176,6 +201,7 @@ namespace ExchangeRates.ViewModel
                         Rate r = (Rate)wnExchange.CbRates.SelectedValue;
                         exchange.RateName = r.Code;
                         ListExchange.Add(exchange);
+                        SaveChanges(ListExchange);
 
                     }
                     SelectedExchange = exchange;

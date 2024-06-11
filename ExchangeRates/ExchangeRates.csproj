@@ -81,6 +81,9 @@
     <Compile Include="View\WindowNewExchange.xaml.cs">
       <DependentUpon>WindowNewExchange.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\WindowNewRate.xaml.cs">
+      <DependentUpon>WindowNewRate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\WindowRates.xaml.cs">
       <DependentUpon>WindowRates.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\WindowNewRate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\WindowRates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -136,7 +143,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="DataModels\SaveData.json" />
+    <None Include="DataModels\SaveDataExchange.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -146,6 +153,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
